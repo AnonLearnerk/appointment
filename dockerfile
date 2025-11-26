@@ -24,21 +24,18 @@ WORKDIR /var/www/html
 # 5. Copy Laravel files
 COPY . /var/www/html
 
-# 6. Copy Firebase JSON if it's gitignored
-COPY storage/app/firebase-admin-sdk.json /var/www/html/storage/app/firebase-admin-sdk.json
-
-# 7. Set permissions for Laravel
+# 6. Set permissions for Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 8. Install PHP dependencies
+# 7. Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# 9. Install Node dependencies & build Vite assets
+# 8. Install Node dependencies & build Vite assets
 RUN npm install
 RUN npm run build
 
-# 10. Expose port for PHP-FPM
+# 9. Expose port for PHP-FPM
 EXPOSE 9000
 
-# 11. Start PHP-FPM
+# 10. Start PHP-FPM
 CMD ["php-fpm"]
